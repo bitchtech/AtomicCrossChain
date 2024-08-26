@@ -7,3 +7,108 @@ contract SolanaAdapter {
     // Solana has different programming languages, typically Rust, so this would involve
     // cross-chain communication through an intermediate layer or bridge.
 }
+
+use solana_program::{
+    account_info::{next_account_info, AccountInfo},
+    entrypoint,
+    entrypoint::ProgramResult,
+    program::invoke,
+    program_error::ProgramError,
+    pubkey::Pubkey,
+    system_instruction,
+};
+
+entrypoint!(process_instruction);
+pub fn process_instruction(
+    program_id: &Pubkey,
+    accounts: &[AccountInfo],
+    instruction_data: &[u8],
+) -> ProgramResult {
+    let accounts_iter = &mut accounts.iter();
+
+    // Unpack the necessary accounts
+    let payer_account = next_account_info(accounts_iter)?;
+    let recipient_account = next_account_info(accounts_iter)?;
+    let swap_account = next_account_info(accounts_iter)?;
+
+    // Parse the instruction data
+    let swap_instruction = SwapInstruction::unpack(instruction_data)?;
+
+    match swap_instruction {
+        SwapInstruction::InitiateSwap { amount, hash_lock, timelock } => {
+            process_initiate_swap(program_id, payer_account, recipient_account, swap_account, amount, hash_lock, timelock)
+        },
+        SwapInstruction::CompleteSwap { preimage } => {
+            process_complete_swap(program_id, recipient_account, swap_account, preimage)
+        },
+        SwapInstruction::RefundSwap => {
+            process_refund_swap(program_id, payer_account, swap_account)
+        }
+    }
+}
+
+fn process_initiate_swap(
+    program_id: &Pubkey,
+    payer_account: &AccountInfo,
+    recipient_account: &AccountInfo,
+    swap_account: &AccountInfo,
+    amount: u64,
+    hash_lock: [u8; 32],
+    timelock: u64,
+) -> ProgramResult {
+    // Logic to initiate the swap
+    // Transfer SPL tokens from payer to the swap account
+    let transfer_instruction = system_instruction::transfer(
+        &payer_account.key,
+        &swap_account.key,
+        amount,
+    );
+    invoke(
+        &transfer_instruction,
+        &[payer_account.clone(), swap_account.clone()],
+    )?;
+    
+    // Store hash_lock and timelock in the swap account's data
+    // (Requires further code to handle serialization and deserialization)
+    
+    Ok(())
+}
+
+fn process_complete_swap(
+    program_id: &Pubkey,
+    recipient_account: &AccountInfo,
+    swap_account: &AccountInfo,
+    preimage: [u8; 32],
+) -> ProgramResult {
+    // Logic to complete the swap
+    // Verify preimage matches the stored hash_lock
+    // If valid, transfer tokens from swap account to recipient
+    
+    Ok(())
+}
+
+fn process_refund_swap(
+    program_id: &Pubkey,
+    payer_account: &AccountInfo,
+    swap_account: &AccountInfo,
+) -> ProgramResult {
+    // Logic to refund the swap
+    // Check if timelock has expired
+    // If valid, transfer tokens back to payer
+    
+    Ok(())
+}
+
+// Define the swap instructions
+pub enum SwapInstruction {
+    InitiateSwap { amount: u64, hash_lock: [u8; 32], timelock: u64 },
+    CompleteSwap { preimage: [u8; 32] },
+    RefundSwap,
+}
+
+impl SwapInstruction {
+    // Unpack method for instruction data
+    pub fn unpack(input: &[u8]) -> Result<Self, ProgramError> {
+        // Parse input data and create the appropriate SwapInstruction enum
+    }
+}
