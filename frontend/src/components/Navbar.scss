@@ -1,0 +1,32 @@
+// Navbar.scss
+
+@import './variables';
+
+.navbar {
+    background-color: $primary-color;
+    color: $text-color;
+    padding: $padding-base;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__logo img {
+        max-height: 50px;
+    }
+
+    &__links {
+        list-style: none;
+        display: flex;
+        gap: $padding-large;
+
+        li a {
+            color: $text-color;
+            font-size: $font-size-base;
+            font-weight: 700;
+
+            &:hover {
+                color: $secondary-color;
+            }
+        }
+    }
+}
