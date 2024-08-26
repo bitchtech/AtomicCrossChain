@@ -1,0 +1,55 @@
+#For styling the swap form.
+
+// SwapForm.scss
+
+@import './variables';
+
+.swap-form {
+    background-color: $text-color;
+    color: $primary-color;
+    padding: $padding-large;
+    border-radius: $border-radius-base;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        text-align: center;
+        margin-bottom: $padding-large;
+        color: $secondary-color;
+    }
+
+    &__group {
+        margin-bottom: $padding-base;
+
+        label {
+            display: block;
+            font-size: $font-size-base;
+            margin-bottom: $padding-small;
+        }
+
+        select, input {
+            width: 100%;
+            padding: $padding-small;
+            font-size: $font-size-base;
+            border: 1px solid $muted-text-color;
+            border-radius: $border-radius-base;
+        }
+    }
+
+    &__submit {
+        width: 100%;
+        background-color: $secondary-color;
+        color: $text-color;
+        font-size: $font-size-base;
+        padding: $padding-small;
+        border: none;
+        border-radius: $border-radius-large;
+        cursor: pointer;
+        margin-top: $padding-base;
+        
+        &:hover {
+            background-color: darken($secondary-color, 10%);
+        }
+    }
+}
