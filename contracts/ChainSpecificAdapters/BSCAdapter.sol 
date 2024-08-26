@@ -1,3 +1,8 @@
 # Smart Contracts for Atomic Swaps
 # Adapters for specific blockchains
 # Binance Smart Chain integration
+
+// Binance Smart Chain Adapter
+contract BSCAdapter is AtomicSwap {
+    // Implementation specific to Binance Smart Chain
+}
