@@ -1,0 +1,35 @@
+#For styling the transaction history table.
+
+// TransactionHistory.scss
+
+@import './variables';
+
+.transaction-history {
+    margin-top: $padding-large;
+
+    h2 {
+        text-align: center;
+        margin-bottom: $padding-large;
+        color: $primary-color;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th, td {
+            padding: $padding-small;
+            text-align: left;
+            border-bottom: 1px solid $muted-text-color;
+        }
+
+        th {
+            background-color: $primary-color;
+            color: $text-color;
+        }
+
+        tr:hover {
+            background-color: $background-color;
+        }
+    }
+}
