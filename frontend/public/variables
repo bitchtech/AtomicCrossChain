@@ -1,0 +1,22 @@
+The primary colors for BitBridgeX's navy blue and magenta theme:
+
+// variables.scss
+$primary-color: #001f3f; // Navy Blue
+$secondary-color: #e91e63; // Magenta
+$background-color: #f4f7fc; // Light Background
+$text-color: #ffffff; // White
+$muted-text-color: #cccccc; // Light Grey
+
+// Font sizes
+$font-size-base: 16px;
+$font-size-large: 24px;
+$font-size-small: 12px;
+
+// Spacing
+$padding-base: 16px;
+$padding-large: 32px;
+$padding-small: 8px;
+
+// Border radius
+$border-radius-base: 4px;
+$border-radius-large: 8px;  
