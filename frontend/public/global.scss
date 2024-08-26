@@ -1,0 +1,35 @@
+#Define the Global Styles, such as reset styles, fonts and base styling.
+
+// global.scss
+
+@import './variables';
+
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  background-color: $background-color;
+  color: $text-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+  font-weight: 400;
+}
+
+a {
+  color: $secondary-color;
+  text-decoration: none;
+}
+
+.container {
+  padding: $padding-base;
+  max-width: 1200px;
+  margin: 0 auto;
+}
