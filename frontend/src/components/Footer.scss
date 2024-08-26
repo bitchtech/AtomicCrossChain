@@ -1,0 +1,32 @@
+// Footer.scss
+
+@import './variables';
+
+.footer {
+    background-color: $primary-color;
+    color: $muted-text-color;
+    padding: $padding-large;
+    text-align: center;
+
+    &__container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    &__links {
+        list-style: none;
+        display: flex;
+        gap: $padding-small;
+
+        li a {
+            color: $muted-text-color;
+            font-size: $font-size-small;
+
+            &:hover {
+                color: $secondary-color;
+            }
+        }
+    }
+}
