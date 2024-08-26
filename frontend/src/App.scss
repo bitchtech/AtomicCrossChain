@@ -1,0 +1,19 @@
+#Overarching styles for the application.
+
+// App.scss
+
+@import './assets/styles/variables';
+
+.app {
+    font-family: 'Inter', sans-serif;
+    background-color: $background-color;
+    color: $text-color;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    main {
+        flex: 1;
+        padding: $padding-large 0;
+    }
+}
