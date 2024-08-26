@@ -1,3 +1,9 @@
 # Smart Contracts for Atomic Swaps
 # Adapters for specific blockchains
 # Solana integration (Rust-based)
+
+// Solana Adapter (using a cross-chain bridge or wormhole)
+contract SolanaAdapter {
+    // Solana has different programming languages, typically Rust, so this would involve
+    // cross-chain communication through an intermediate layer or bridge.
+}
