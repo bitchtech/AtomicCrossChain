@@ -1,5 +1,5 @@
 # Smart Contracts for Atomic Swaps
-# Integration with PWR Chain Services, including validation, batching, etc. for scalability
+# Integration with PWR Chain Services for scalability
 
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
