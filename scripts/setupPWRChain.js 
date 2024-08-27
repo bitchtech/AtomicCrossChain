@@ -1,2 +1,113 @@
 # Scripts for deployment, management, and automation
 # Script to integrate and set up PWR Chain
+
+const { ethers } = require('ethers');
+const fs = require('fs');
+const path = require('path');
+const networkConfig = require('./networkConfig');
+const multiSigConfig = require('./multiSigConfig');
+
+async function deployContract(contractName, wallet, provider) {
+    const artifactPath = path.join(__dirname, 'artifacts', `${contractName}.json`);
+    const artifact = JSON.parse(fs.readFileSync(artifactPath, 'utf8'));
+    const contractFactory = new ethers.ContractFactory(artifact.abi, artifact.bytecode, wallet);
+
+    console.log(`Deploying ${contractName}...`);
+
+    const contract = await contractFactory.deploy({
+        gasPrice: ethers.utils.parseUnits(networkConfig.gasPrice, 'gwei'),
+        gasLimit: networkConfig.gasLimit,
+    });
+
+    await contract.deployTransaction.wait();
+
+    console.log(`${contractName} deployed at: ${contract.address}`);
+
+    return contract;
+}
+
+async function setupMultiSigWallet(wallet, provider) {
+    console.log('Setting up Multi-Signature Wallet...');
+
+    // Deploy the Multi-Sig contract
+    const multiSigContract = await deployContract('MultiSigWallet', wallet, provider);
+
+    // Initialize Multi-Sig Wallet with owners and required confirmations
+    const initializeTx = await multiSigContract.initialize(
+        multiSigConfig.multiSig.owners,
+        multiSigConfig.multiSig.requiredConfirmations
+    );
+
+    await initializeTx.wait();
+
+    console.log(`Multi-Sig Wallet initialized with address: ${multiSigContract.address}`);
+
+    return multiSigContract;
+}
+
+async function deployPWRChain(wallet, provider) {
+    console.log('Deploying PWR Chain components...');
+
+    // Deploy core PWR Chain contracts
+    const pwrToken = await deployContract('PWRToken', wallet, provider);
+    const pwrGovernance = await deployContract('PWRGovernance', wallet, provider);
+
+    // Set up governance roles
+    const setupGovernanceTx = await pwrGovernance.setupRoles(pwrToken.address);
+    await setupGovernanceTx.wait();
+
+    console.log('PWR Chain setup completed.');
+
+    return {
+        pwrToken,
+        pwrGovernance,
+    };
+}
+
+async function main() {
+    try {
+        console.log(`Starting PWR Chain setup on ${networkConfig.name}...`);
+
+        // Setup provider and wallet
+        const provider = new ethers.providers.JsonRpcProvider(networkConfig.url);
+        const wallet = new ethers.Wallet(process.env.DEPLOYER_PRIVATE_KEY, provider);
+
+        // Deploy and setup Multi-Signature Wallet
+        const multiSigWallet = await setupMultiSigWallet(wallet, provider);
+
+        // Deploy PWR Chain contracts and setup governance
+        const { pwrToken, pwrGovernance } = await deployPWRChain(wallet, provider);
+
+        // Save deployment info
+        const deploymentInfo = {
+            network: networkConfig.name,
+            multiSigWallet: multiSigWallet.address,
+            pwrToken: pwrToken.address,
+            pwrGovernance: pwrGovernance.address,
+            deployer: wallet.address,
+        };
+
+        const deploymentPath = path.join(__dirname, 'deployments', `${networkConfig.name}-PWRChain.json`);
+        fs.writeFileSync(deploymentPath, JSON.stringify(deploymentInfo, null, 2));
+
+        console.log('PWR Chain setup completed successfully.');
+        console.log(`Deployment info saved to ${deploymentPath}`);
+    } catch (error) {
+        console.error('PWR Chain setup failed:', error);
+    }
+}
+
+// Execute the setup
+main();
+
+
+
+# Set Environmental Variables
+
+DEPLOYER_PRIVATE_KEY=your_private_key_here
+
+
+
+# Run the Script
+
+NODE_ENV=production node setupPWRChain.js
