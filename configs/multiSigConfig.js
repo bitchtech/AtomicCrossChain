@@ -93,7 +93,8 @@ module.exports = config[environment];
 
 
 
-# USAGE: To use this configuration in your application, you can import and access it as follows:
+# USAGE: 
+# To use this configuration in your application, you can import and access it as follows:
 
 const config = require('./multiSigConfig');
 
