@@ -55,3 +55,19 @@ async function deployContract() {
 
 // Execute the deployment
 deployContract();
+
+
+
+# How to Run
+# Set environment variables (.env) file setup with the deployers private key
+
+DEPLOYER_PRIVATE_KEY=your_private_key_here
+
+
+
+# Run the Script
+
+NODE_ENV=production node deployContracts.js
+
+
+
