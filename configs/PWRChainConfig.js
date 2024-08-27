@@ -119,7 +119,8 @@ const environment = process.env.NODE_ENV || 'development';
 module.exports = config[environment];
 
 
-# USAGE: you can use this configuration in your application by importing it:
+# USAGE
+# You can use this configuration in your application by importing it:
   
 const config = require('./PWRChainConfig');
 
