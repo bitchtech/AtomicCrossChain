@@ -1,2 +1,2 @@
 # AtomicCrossChain
-BitBridgeX: A decentralized, trustless atomic cross-chain bridge solution for seamless digital asset transfers across multiple blockchains with Layer 2 integration for scalability and cost efficiency. 
+BitBridgeX is a fully decentralized quantum-secure platform enabling true interoperability of digital assets between Bitcoin to any blockchain, includes PWR Chain and Layer 2 network integrations.
